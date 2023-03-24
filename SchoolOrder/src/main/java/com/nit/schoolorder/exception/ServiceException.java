@@ -1,0 +1,18 @@
+package com.nit.schoolorder.exception;
+
+import lombok.Getter;
+
+/**
+ * @Author: CCTY
+ * @Date: 2023/2/20 22:08
+ **/
+//自定义异常
+@Getter
+public class ServiceException extends RuntimeException {
+    private String code;
+
+    public ServiceException(String code, String msg) {
+        super(msg);
+        this.code = code;
+    }
+}

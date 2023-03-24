@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nit.schoolorder.mapper.GorderMapper">
+
+    <resultMap id="selectAllOrder" type="com.nit.schoolorder.entity.Gorder">
+        <id column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="arrivedTime" jdbcType="TIMESTAMP" property="arrivedTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <collection property="consumerList" ofType="com.nit.schoolorder.entity.Consumer">
+            <id column="consumer_id" jdbcType="BIGINT" property="consumerId"/>
+            <result column="address" jdbcType="VARCHAR" property="address"/>
+            <result column="phone" jdbcType="BIGINT" property="phone"/>
+            <result column="consumer_name" jdbcType="VARCHAR" property="consumerName"/>
+        </collection>
+        <collection property="sellerList" ofType="com.nit.schoolorder.entity.Seller">
+            <id column="seller_id" jdbcType="INTEGER" property="sellerId"/>
+            <result column="seller_name" jdbcType="VARCHAR" property="sellerName"/>
+        </collection>
+    </resultMap>
+    <select id="selectAllOrder" resultMap="selectAllOrder">
+        select g.orderId, c.address, c.phone, c.consumerName,g.createTime, g.arrivedTime,s.sellerName
+        from gorder g,
+             consumer c,
+             seller s
+        where g.consumerId = c.consumerId
+          and g.sellerId = s.sellerId
+/*直连接查询语句
+select g.order_id,c.address,c.phone,g.create_time,g.arrived_time,c.consumer_name,s.seller_name from gorder g
+join consumer c ON g.consumer_id=c.consumer_id
+join seller s on g.seller_id=s.seller_id*/
+    </select>
+
+</mapper>
